@@ -54,6 +54,7 @@ canvas {
 .prompt__buttons button {
   outline: none;
   min-width: 5em;
+  color: black;
   cursor: pointer;
   border: 2px solid;
   font-weight: bold;
