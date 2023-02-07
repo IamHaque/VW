@@ -77,5 +77,5 @@ function showSuccessPrompt() {
   buttonsEl.remove();
 
   const titleEl = document.querySelector(".prompt__title");
-  titleEl.innerHTML = `💍 Who wouldn't accept you! 💍`;
+  titleEl.innerHTML = `Thanks!! 😊</br>I'd have accepted yours as well! 💍`;
 }
