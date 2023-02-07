@@ -17,12 +17,12 @@ var canvas = document.getElementById("cvs"),
   height = (canvas.height = document.body.offsetHeight),
   width = (canvas.width = document.body.offsetWidth),
   collection = [],
-  num_drops = 20, // number of drops
+  num_drops = 30, // number of drops
   gravity = 2, // gravity multiplier
   windForce = 0, // yea i'd just leave this
   windMultiplier = 0.007, // this freaks out on large numbers
   maxSpeed = 10, // this is so you never run too fast (it is a multiplier not raw)
-  gutter = 0.01; // the percentage distance to travel off screen before wrapping
+  gutter = 0.005; // the percentage distance to travel off screen before wrapping
 
 function Drop() {
   this.x;
@@ -78,7 +78,7 @@ function draw_frame() {
     drop.y += drop.vy;
     var lx = drop.vx + windForce;
     lx < maxSpeed && lx > 1 - maxSpeed && (drop.vx = lx);
-    if (drop.y > ((drop.distance + 1) / 10) * height) {
+    if (drop.y > height + 30) {
       drop.y = Math.random() * -drop.radius * (num_drops / 10);
       drop.x = drop.random_x();
     }
@@ -115,7 +115,7 @@ function init() {
     drop.vy = Math.random() * drop.speed + drop.speed / 2;
     drop.radius = ((drop.distance + 1) / 16) * 3;
     drop.x = drop.random_x();
-    drop.y = Math.random() * height;
+    drop.y = (-1 * (Math.random() * height)) / 2;
     collection.push(drop);
   }
   //   windTimer();
