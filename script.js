@@ -22,7 +22,7 @@ function showSuccessPrompt() {
   buttonsEl.remove();
 
   const titleEl = document.querySelector(".prompt__title");
-  titleEl.innerHTML = `Thank You! 🌹`;
+  titleEl.innerHTML = `Aww! Your'e a cutie 🌹`;
 }
 
 function repositionButton() {
