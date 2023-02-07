@@ -1,45 +1,38 @@
-const successBtnEl = document.querySelector(".prompt__success");
-const failureBtnEl = document.querySelector(".prompt__failure");
+const failurePrompts = [
+  "No",
+  "LOL",
+  "Ewww!",
+  "Never",
+  "Maybe?",
+  "Please!",
+  "Hell no!",
+  "You wish",
+  "In your dreams",
+];
 
-const offsetY = 32;
-const offsetX = 32;
-
-const rect = failureBtnEl.getBoundingClientRect();
-const edges = {
-  left: -1 * Math.ceil(rect.left) + offsetX,
-  top: -1 * Math.ceil(rect.top) + offsetY,
-};
-edges.bottom =
-  document.body.offsetHeight - Math.ceil(rect.height) + edges.top - 3 * offsetY;
-edges.right =
-  document.body.offsetWidth - Math.ceil(rect.width) + edges.left - 2 * offsetX;
+const successBtnEl = document.querySelector(".prompt__success button");
+const failureBtnEl = document.querySelector(".prompt__failure button");
 
 successBtnEl.addEventListener("click", showSuccessPrompt);
 failureBtnEl.addEventListener("click", repositionButton);
 
-function showSuccessPrompt() {
-  const buttonsEl = document.querySelector(".prompt__buttons");
-  buttonsEl.remove();
+const offsetX = 32;
+const offsetY = 32;
+const maxWidth = document.body.offsetWidth;
+const maxHeight = document.body.offsetHeight;
 
-  const titleEl = document.querySelector(".prompt__title");
-  titleEl.innerHTML = `Aww! Your'e a cutie 🌹`;
-}
+const initialRect = failureBtnEl.getBoundingClientRect();
+const initialTop = initialRect.top;
+const initialLeft = initialRect.left;
 
-function repositionButton() {
-  let repositionedCount = 0;
-  let randomX = 0;
-  let randomY = 0;
+const edges = {};
+calculateEdges(edges, initialRect.width, initialRect.height);
 
-  while (repositionedCount < 1000) {
-    randomY = generateRandomNumber(edges.top, edges.bottom);
-    randomX = generateRandomNumber(edges.left, edges.right);
-    repositionedCount++;
-
-    failureBtnEl.style.top = `${randomY}px`;
-    failureBtnEl.style.left = `${randomX}px`;
-
-    if (!hasCollision(failureBtnEl, successBtnEl)) break;
-  }
+function calculateEdges(edges, w, h) {
+  edges.top = -1 * Math.ceil(initialTop) + offsetY;
+  edges.left = -1 * Math.ceil(initialLeft) + offsetX;
+  edges.right = maxWidth - Math.ceil(w) + edges.left - 2 * offsetX;
+  edges.bottom = maxHeight - Math.ceil(h) + edges.top - 3 * offsetY;
 }
 
 function generateRandomNumber(min, max) {
@@ -54,4 +47,35 @@ function hasCollision(a, b) {
     Math.abs(ac.top - bc.top) < ac.height &&
     Math.abs(ac.left - bc.left) < ac.width
   );
+}
+
+function repositionButton() {
+  let repositionedCount = 0;
+  let randomX = 0;
+  let randomY = 0;
+
+  const promptMessageIndex = Math.floor(Math.random() * failurePrompts.length);
+  failureBtnEl.innerHTML = failurePrompts[promptMessageIndex];
+
+  let rect = failureBtnEl.getBoundingClientRect();
+  calculateEdges(edges, rect.width, rect.height);
+
+  while (repositionedCount < 1000) {
+    randomY = generateRandomNumber(edges.top, edges.bottom);
+    randomX = generateRandomNumber(edges.left, edges.right);
+    repositionedCount++;
+
+    failureBtnEl.style.top = `${randomY}px`;
+    failureBtnEl.style.left = `${randomX}px`;
+
+    if (!hasCollision(failureBtnEl, successBtnEl)) break;
+  }
+}
+
+function showSuccessPrompt() {
+  const buttonsEl = document.querySelector(".prompt__buttons");
+  buttonsEl.remove();
+
+  const titleEl = document.querySelector(".prompt__title");
+  titleEl.innerHTML = `💍 Who wouldn't accept you! 💍`;
 }
