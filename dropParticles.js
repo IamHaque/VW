@@ -14,8 +14,8 @@ window.requestAnimFrame = (function () {
 /********************************************/
 var canvas = document.getElementById("cvs"),
   ctx = canvas.getContext("2d"),
-  height = document.body.offsetHeight,
-  width = document.body.offsetWidth,
+  height = (canvas.height = document.body.offsetHeight),
+  width = (canvas.width = document.body.offsetWidth),
   collection = [],
   num_drops = 30, // number of drops
   gravity = 2, // gravity multiplier
@@ -121,8 +121,8 @@ function init() {
   //   windTimer();
   animate();
   window.onresize = function () {
-    height = document.body.offsetHeight;
-    width = document.body.offsetWidth;
+    height = canvas.height = document.body.offsetHeight;
+    width = canvas.width = document.body.offsetWidth;
   };
 }
 
