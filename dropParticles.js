@@ -11,11 +11,27 @@ window.requestAnimFrame = (function () {
     }
   );
 })();
+
+const setDimensions = () => {
+  const height = document.body.offsetHeight;
+  const width = document.body.offsetWidth;
+
+  canvas.style.height = height + "px";
+  canvas.style.width = width + "px";
+  canvas.height = height;
+  canvas.width = width;
+
+  return { height, width };
+};
+
 /********************************************/
-var canvas = document.getElementById("cvs"),
-  ctx = canvas.getContext("2d"),
-  height = (canvas.height = document.body.offsetHeight),
-  width = (canvas.width = document.body.offsetWidth),
+var canvas = document.getElementById("cvs");
+
+var dimensions = setDimensions();
+var height = dimensions.height;
+var width = dimensions.width;
+
+var ctx = canvas.getContext("2d"),
   collection = [],
   num_drops = 30, // number of drops
   gravity = 2, // gravity multiplier
@@ -121,8 +137,9 @@ function init() {
   //   windTimer();
   animate();
   window.onresize = function () {
-    height = canvas.height = document.body.offsetHeight;
-    width = canvas.width = document.body.offsetWidth;
+    const dimensions = setDimensions();
+    height = dimensions.height;
+    width = dimensions.width;
   };
 }
 
